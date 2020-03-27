@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'rgo'
+
+unless ARGV.count == 1
+  puts "help: "
+  puts "  rgo hello_world.rgo"
+
+  exit
+end
+
+filepath = ARGV.first
+
+statements = Rgo::Parser.new.parse(File.read(filepath))
+puts Rgo::Compile.new(statements).compile
+
