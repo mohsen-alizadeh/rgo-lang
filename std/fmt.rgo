@@ -1,0 +1,6 @@
+
+module Fmt
+  def println(input)
+  end
+end
+
