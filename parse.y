@@ -47,6 +47,9 @@ rule
     | KEYWORD_DEF IDENTIFIER LPAREN RPAREN statement_list KEYWORD_END {
       result = Node.new(:func_def, val[1], [nil, val[4]])
     }
+    | KEYWORD_DEF IDENTIFIER statement_list KEYWORD_END {
+      result = Node.new(:func_def, val[1], [nil, val[2]])
+    }
     ;
 
   include_statement: KEYWORD_INCLUDE CONSTANT { result = Node.new(:include, val[1]) };

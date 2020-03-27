@@ -1,7 +1,7 @@
 module Main
   include Fmt
 
-  def main()
+  def main
     println("hello world")
   end
 end
