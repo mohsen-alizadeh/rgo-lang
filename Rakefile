@@ -17,5 +17,13 @@ task :dev => :generate_parser do
 
   pp statements
 
-  Rgo::Compile.new(statements).compile
+  compile = Rgo::Compile.new(statements)
+  out = compile.compile
+
+  puts "out : "
+  puts out
+
+
+  puts compile.functions
+  puts compile.function_to_module_map
 end

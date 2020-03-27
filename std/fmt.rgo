@@ -1,6 +1,6 @@
 
 module Fmt
-  def println(input)
+  def println()
   end
 end
 

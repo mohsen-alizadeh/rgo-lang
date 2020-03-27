@@ -1,7 +1,13 @@
 module Rgo
   class Compile
+    attr_reader :functions, :function_to_module_map
+
     def initialize(statements)
       @statements = statements
+      @functions = { private: [], public: [] }
+      @function_access_type = :public
+      @current_module = nil
+      @function_to_module_map = {}
     end
 
     def compile
@@ -21,6 +27,8 @@ module Rgo
     end
 
     def compile_module(node, indent)
+      @current_module = node.name
+
       out = []
       out << "package #{node.name.downcase}"
       out << compile_statements(node.children, indent)
@@ -29,6 +37,16 @@ module Rgo
     end
 
     def compile_include(node, indent)
+      # compile included module to get list of functions
+
+      statements = Rgo::Parser.new.parse(File.read("std/" + node.name.downcase + ".rgo"))
+      compile = Rgo::Compile.new(statements)
+      compile.compile
+
+      compile.functions[:public].each do |func|
+        @function_to_module_map[func] = node.name
+      end
+
       "import \"#{node.name.downcase}\""
     end
 
@@ -41,7 +59,9 @@ module Rgo
     end
 
     def compile_func_call(node, indent)
-      "fmt.#{node.name.capitalize}(" + compile_args(node.children) + ")"
+      mod = @function_to_module_map[node.name]
+
+      "#{mod.downcase}.#{node.name.capitalize}(" + compile_args(node.children) + ")"
     end
 
     def compile_args(nodes)
@@ -58,6 +78,11 @@ module Rgo
     end
 
     def compile_func_def(node, indent)
+      # @functions[@current_module] = {}
+      # @functions[@current_module][@function_access_type] ||= []
+      # @functions[@current_module][@function_access_type] << node.name
+      @functions[@function_access_type] << node.name
+
       out = []
       out << "func #{node.name}() {"
       out << compile_statements(node.children[1], indent + 1)
@@ -65,5 +90,5 @@ module Rgo
 
       pretty out, indent
     end
-    end
+  end
 end
