@@ -10,8 +10,9 @@ end
 
 task :default => :spec
 
-task :dev => :generate_parser do
-  statements = Rgo::Parser.new.parse(File.read("./samples/1_hello_world.rgo"))
+task :dev do
+  `racc parse.y -o lib/rgo/parser.rb`
+  statements = Rgo::Parser.new.parse(File.read("./samples/3_variables.rgo"))
 
   require 'pp'
 

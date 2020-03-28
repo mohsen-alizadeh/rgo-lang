@@ -11,11 +11,13 @@ rule
 		;
 
 	statement
+    | comment_statement
 		| module_statement
 		| require_statement
 		| func_call
     | func_def
     | include_statement
+    | assignment_statement
 		;
 
 	if_statement
@@ -34,9 +36,10 @@ rule
 
 	func_call: IDENTIFIER LPAREN args RPAREN { result = Node.new(:func_call, val[0], val[2]) }
 
-	args: arg { result = Array(val[0]) } | args arg { result = val }
+  args: arg { result = Array(val[0]) } | args arg { result = val }
 
 	arg: STRING { result = Node.new(:string, val[0]) }
+      | IDENTIFIER { result = Node.new(:variable, val[0]) }
       ;
 
 
@@ -54,9 +57,16 @@ rule
 
   include_statement: KEYWORD_INCLUDE CONSTANT { result = Node.new(:include, val[1]) };
 
+  comment_statement: COMMENT { result = Node.new(:comment, val[0]) };
+
+  assignment_statement: IDENTIFIER KEYWORD_ASSIGN expression { result = Node.new(:assignment, val[0], [val[2]]) }
+
 	expression
 		: IDENTIFIER '(' ')' { result = val[0,3].join }
 		| IDENTIFIER
+    | STRING { result = Node.new(:string, val[0]) }
+    | INTEGER { result = Node.new(:integer, val[0].to_i) }
+    | BOOLEAN
 		;
 end
 
@@ -70,6 +80,8 @@ require_relative './node.rb'
 
 def parse(str)
   @q = Tokenizer.new(str).tokens
+
+  puts @q.inspect
 
   do_parse
 end

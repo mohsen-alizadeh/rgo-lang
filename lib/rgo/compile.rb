@@ -20,6 +20,7 @@ module Rgo
       out = []
 
       statements.each do |statement|
+        # puts "statement : #{statement.inspect}"
         out << send("compile_#{statement.type}", statement, indent)
       end
 
@@ -71,6 +72,8 @@ module Rgo
         case node.type
         when :string
           out << "\"#{node.name}\""
+        when :variable
+          out << node.name
         end
       end
 
@@ -89,6 +92,27 @@ module Rgo
       out << "}"
 
       pretty out, indent
+    end
+
+    def compile_comment(node, indent)
+
+      puts "compile comment :"
+      puts node.inspect
+      "//#{node.name}"
+    end
+
+
+    def compile_assignment(node, indent)
+      "var #{node.name} = #{compile_expression(node.children.first, 0)}"
+    end
+
+
+    def compile_expression(node, indent)
+      send("compile_#{node.type}", node, indent)
+    end
+
+    def compile_string(node, indent)
+      "\"#{node.name}\""
     end
   end
 end

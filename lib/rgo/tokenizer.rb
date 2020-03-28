@@ -25,8 +25,12 @@ module Rgo
             @q.push [:CONSTANT, m]
           when m = scanner.scan(Expression::IDENTIFIER)
             @q.push [:IDENTIFIER, m]
+          when m = scanner.scan(Expression::INTEGER)
+            @q.push [:INTEGER, m]
+          when m = scanner.scan(Expression::BOOLEAN)
+            @q.push [:BOOLEAN, m]
           when m = scanner.scan(/=/)
-            @q.push [:KEYWORD_EQUAL, "="]
+            @q.push [:KEYWORD_ASSIGN, "="]
           when m = scanner.scan(/\(/)
             @q.push [:LPAREN, "("]
           when m = scanner.scan(/\)/)
@@ -51,6 +55,10 @@ module Rgo
       #SPACE = %r(#{SPACE_1}|#{SPACE_2})
 
       IDENTIFIER = /[a-z]\w*/
+
+      INTEGER = /[0-9]+/
+
+      BOOLEAN = /(true|false)/
 
       # scarry comment - bad style - beward of '\' at end of line...
       comment = /\#(?:\\[ \t]*#{NEWLINE}|[^\r\n])*/m
