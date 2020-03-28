@@ -13,8 +13,8 @@ module Rgo
       until scanner.empty?
         case
           when scanner.scan(/\s+/)
-          when m = scanner.scan(/\d+/)
-            @q.push [:NUMBER, m.to_i]
+          when m = scanner.scan(Expression::INTEGER)
+            @q.push [:INTEGER, m.to_i]
           when m = scanner.scan(Expression::KEYWORDS)
             @q.push [:"KEYWORD_#{m.upcase}", m]
           when m = scanner.scan(Expression::COMMENT)
@@ -25,10 +25,6 @@ module Rgo
             @q.push [:CONSTANT, m]
           when m = scanner.scan(Expression::IDENTIFIER)
             @q.push [:IDENTIFIER, m]
-          when m = scanner.scan(Expression::INTEGER)
-            @q.push [:INTEGER, m]
-          when m = scanner.scan(Expression::BOOLEAN)
-            @q.push [:BOOLEAN, m]
           when m = scanner.scan(/=/)
             @q.push [:KEYWORD_ASSIGN, "="]
           when m = scanner.scan(/\(/)
@@ -76,7 +72,7 @@ module Rgo
 
       INSTANCE_VARIABLE = /\@\w+/
 
-      KEYWORDS = /class|end|require|module|def|include/
+      KEYWORDS = /class|end|require|module|def|include|true|false/
     end # Expression
   end
 end

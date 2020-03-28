@@ -66,8 +66,13 @@ rule
 		| IDENTIFIER
     | STRING { result = Node.new(:string, val[0]) }
     | INTEGER { result = Node.new(:integer, val[0].to_i) }
-    | BOOLEAN
+    | boolean
 		;
+
+  boolean
+    : KEYWORD_TRUE  { result = Node.new(:boolean, true) }
+    | KEYWORD_FALSE { result = Node.new(:boolean, false) }
+    ;
 end
 
 ---- header ----

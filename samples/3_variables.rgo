@@ -1,0 +1,17 @@
+module Main
+  include Fmt
+
+  def main
+    # string
+    a = "mohsen"
+    println(a)
+
+    # integer
+    b = 9
+    println(b)
+
+    # boolean
+    d = true
+    println(d)
+  end
+end

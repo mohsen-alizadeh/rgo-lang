@@ -29,7 +29,7 @@ describe Rgo::Tokenizer do
         [:KEYWORD_CLASS, "class"],
         [:CONSTANT, "Student"],
         [:INSTANCE_VARIABLE, "name"],
-        [:KEYWORD_EQUAL, "="],
+        [:KEYWORD_ASSIGN, "="],
         [:STRING, "mohsen"],
         [:KEYWORD_END, "end"]
       ],
@@ -59,6 +59,25 @@ describe Rgo::Tokenizer do
           println("hello world")
         end
 
+      EOL
+    ],
+    [
+      :assignment,
+      [
+        [:IDENTIFIER, "a"],
+        [:KEYWORD_ASSIGN, "="],
+        [:KEYWORD_TRUE, "true"],
+        [:IDENTIFIER, "b"],
+        [:KEYWORD_ASSIGN, "="],
+        [:INTEGER, 1],
+        [:IDENTIFIER, "c"],
+        [:KEYWORD_ASSIGN, "="],
+        [:STRING, "mohsen"]
+      ],
+      <<-EOL
+        a = true
+        b = 1
+        c = "mohsen"
       EOL
     ]
   ]

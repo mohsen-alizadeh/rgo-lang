@@ -16,11 +16,11 @@ module Rgo
 
     def compile_statements(statements, indent = 0)
       statements = Array(statements) unless statements.is_a? Array
+      statements.flatten!
 
       out = []
 
       statements.each do |statement|
-        # puts "statement : #{statement.inspect}"
         out << send("compile_#{statement.type}", statement, indent)
       end
 
@@ -55,8 +55,9 @@ module Rgo
       out.map do |o| ("  " * indent) + o end.join("\n")
     end
 
-    def compile_string(node)
-      node.name
+
+    def compile_integer(node, indent)
+      node.name.to_s
     end
 
     def compile_func_call(node, indent)
@@ -95,9 +96,6 @@ module Rgo
     end
 
     def compile_comment(node, indent)
-
-      puts "compile comment :"
-      puts node.inspect
       "//#{node.name}"
     end
 
@@ -113,6 +111,10 @@ module Rgo
 
     def compile_string(node, indent)
       "\"#{node.name}\""
+    end
+
+    def compile_boolean(node, indent)
+      node.name.to_s
     end
   end
 end
