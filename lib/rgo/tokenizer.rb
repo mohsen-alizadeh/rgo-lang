@@ -29,8 +29,24 @@ module Rgo
             @q.push [:CONSTANT, m]
           when m = scanner.scan(Expression::IDENTIFIER)
             @q.push [:IDENTIFIER, m]
+          when m = scanner.scan(/==/)
+            @q.push [:EQUAL, "=="]
           when m = scanner.scan(/=/)
             @q.push [:KEYWORD_ASSIGN, "="]
+          when m = scanner.scan(/\+/)
+            @q.push [:PLUS, "+"]
+          when m = scanner.scan(/\-/)
+            @q.push [:MINUS, "-"]
+          when m = scanner.scan(/\*/)
+            @q.push [:MULTIPLY, "*"]
+          when m = scanner.scan(/\//)
+            @q.push [:DIVIDE, "/"]
+          when m = scanner.scan(/>/)
+            @q.push [:GREATER, ">"]
+          when m = scanner.scan(/</)
+            @q.push [:LESS, "<"]
+          when m = scanner.scan(/\%/)
+            @q.push [:MOD, "%"]
           when m = scanner.scan(/\(/)
             @q.push [:LPAREN, "("]
           when m = scanner.scan(/\)/)
@@ -74,9 +90,9 @@ module Rgo
 
       CONSTANT = /[A-Z]\w*/
 
-      INSTANCE_VARIABLE = /\@\w+/
+      INSTANCE_VARIABLE= /\@\w+/
 
-      KEYWORDS = /class|end|require|module|def|include|true|false/
+      KEYWORDS = /class|end|require|module|def|include|true|false|if|else|elsif/
     end # Expression
   end
 end

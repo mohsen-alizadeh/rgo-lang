@@ -1,0 +1,9 @@
+module Main
+  include Fmt
+
+  def main
+    if (7%2 == 0)
+      println("7 is even")
+    end
+  end
+end

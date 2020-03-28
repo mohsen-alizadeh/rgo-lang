@@ -81,6 +81,59 @@ describe Rgo::Tokenizer do
         b = 1
         c = "mohsen"
       EOL
+    ],
+    [
+      :if_else,
+      [
+        [:KEYWORD_IF, "if"],
+        [:IDENTIFIER, "num"],
+        [:LESS, "<"],
+        [:INTEGER, 8],
+        [:IDENTIFIER, "println"],
+        [:LPAREN, "("],
+        [:STRING, "state 1"],
+        [:RPAREN, ")"],
+        [:KEYWORD_ELSIF, "elsif"],
+        [:IDENTIFIER, "num"],
+        [:GREATER, ">"],
+        [:INTEGER, 1],
+        [:IDENTIFIER, "println"],
+        [:LPAREN, "("],
+        [:STRING, "state 2"],
+        [:RPAREN, ")"],
+        [:KEYWORD_ELSE, "else"],
+        [:IDENTIFIER, "println"],
+        [:LPAREN, "("],
+        [:STRING, "state 3"],
+        [:RPAREN, ")"],
+        [:KEYWORD_END, "end"]
+      ],
+      <<-EOL
+        if num < 8
+          println("state 1")
+        elsif num > 1
+          println("state 2")
+        else
+          println("state 3")
+        end
+      EOL
+    ],
+    [
+      :number_operator,
+      [
+        [:INTEGER, 1],
+        [:PLUS, "+"],
+        [:INTEGER, 2],
+        [:MINUS, "-"],
+        [:INTEGER, 3],
+        [:MULTIPLY, "*"],
+        [:INTEGER, 4],
+        [:DIVIDE, "/"],
+        [:INTEGER, 5],
+      ],
+      <<-EOL
+        1 + 2 - 3 * 4 / 5
+      EOL
     ]
   ]
 

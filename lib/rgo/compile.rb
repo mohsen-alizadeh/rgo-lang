@@ -128,5 +128,50 @@ module Rgo
     def compile_blank_line(node, indent)
       ""
     end
+
+    def compile_plus(node, indent)
+      compile_node(node.children[0]) + " + " + compile_node(node.children[1])
+    end
+
+    def compile_multiply(node, indent)
+      compile_node(node.children[0]) + " * " + compile_node(node.children[1])
+    end
+
+    def compile_minus(node, indent)
+      compile_node(node.children[0]) + " - " + compile_node(node.children[1])
+    end
+
+    def compile_divide(node, indent)
+      compile_node(node.children[0]) + " / " + compile_node(node.children[1])
+    end
+
+    def compile_less(node, indent)
+      compile_node(node.children[0]) + " < " + compile_node(node.children[1])
+    end
+
+    def compile_greater(node, indent)
+      compile_node(node.children[0]) + " > " + compile_node(node.children[1])
+    end
+
+    def compile_equal(node, indent)
+      compile_node(node.children[0]) + " == " + compile_node(node.children[1])
+    end
+
+    def compile_mod(node, indent)
+      compile_node(node.children[0]) + " % " + compile_node(node.children[1])
+    end
+
+    def compile_node(node)
+      send("compile_#{node.type}", node, 0)
+    end
+
+    def compile_if(node, indent)
+      out = []
+      out << "if " + compile_node(node.name) + " {"
+      out << "  " + compile_node(node.children)
+      out << "}"
+
+      pretty out, indent
+    end
   end
 end

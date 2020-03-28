@@ -1,5 +1,12 @@
 class Rgo::Parser
 
+	prechigh
+		nonassoc UMINUS
+		left '^'
+		left '*' '/'
+		left '+' '-'
+	preclow
+
 rule
 	target
 		: statement_list
@@ -20,14 +27,14 @@ rule
     | include_statement
     | assignment_statement
     | blank_line
+    | if_statement
+    | expression_statement
 		;
 
-	if_statement
-		: 'if' '(' expression ')' statement
-			{ result = "<#{val[2]} implies #{val[4]}>\n" }
-		| 'if' '(' expression ')' statement 'else' statement
-			{ result = "<#{val[2]} implies #{val[4]} otherwise #{val[6]}>\n" }
-		;
+  if_statement
+    : KEYWORD_IF LPAREN expression RPAREN statement_list KEYWORD_END
+      { result = Node.new(:if, val[2], val[4]) }
+    ;
 
 	require_statement: KEYWORD_REQUIRE STRING { result = Node.new(:require, val[1]) }
 
@@ -63,13 +70,29 @@ rule
 
   assignment_statement: IDENTIFIER KEYWORD_ASSIGN expression { result = Node.new(:assignment, val[0], [val[2]]) }
 
+  expression_statement
+    : expression
+    ;
+
 	expression
 		: IDENTIFIER '(' ')' { result = val[0,3].join }
 		| IDENTIFIER
     | STRING { result = Node.new(:string, val[0]) }
     | INTEGER { result = Node.new(:integer, val[0].to_i) }
     | boolean
+    | expression number_operator expression { result = Node.new(val[1], nil, [val[0], val[2]]) }
 		;
+
+  number_operator
+    : PLUS      { result = :plus      }
+    | MINUS     { result = :minus     }
+    | MULTIPLY  { result = :multiply  }
+    | DIVIDE    { result = :divide    }
+    | GREATER   { result = :greater   }
+    | LESS      { result = :less      }
+    | EQUAL     { result = :equal     }
+    | MOD       { result = :mod       }
+    ;
 
   boolean
     : KEYWORD_TRUE  { result = Node.new(:boolean, true) }
