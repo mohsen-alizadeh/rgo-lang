@@ -14,7 +14,7 @@ require_relative './node.rb'
 module Rgo
   class Parser < Racc::Parser
 
-module_eval(<<'...end parse.y/module_eval...', 'parse.y', 112)
+module_eval(<<'...end parse.y/module_eval...', 'parse.y', 113)
 
 def parse(str)
   @q = Tokenizer.new(str).tokens
@@ -355,10 +355,9 @@ module_eval(<<'.,.,', 'parse.y', 38)
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 41)
+module_eval(<<'.,.,', 'parse.y', 42)
   def _reduce_17(val, _values, result)
-    			result = Node.new(:module, val[1], val[2])
-
+     result = Node.new(:module, val[1], val[2])
     result
   end
 .,.,
@@ -384,59 +383,56 @@ module_eval(<<'.,.,', 'parse.y', 47)
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 49)
+module_eval(<<'.,.,', 'parse.y', 50)
   def _reduce_21(val, _values, result)
      result = Node.new(:string, val[0])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 50)
+module_eval(<<'.,.,', 'parse.y', 51)
   def _reduce_22(val, _values, result)
      result = Node.new(:variable, val[0])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 56)
+module_eval(<<'.,.,', 'parse.y', 57)
   def _reduce_23(val, _values, result)
-          result = Node.new(:func_def, val[1], [val[3], val[5]])
-
+     result = Node.new(:func_def, val[1], [val[3], val[5]])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 59)
+module_eval(<<'.,.,', 'parse.y', 60)
   def _reduce_24(val, _values, result)
-          result = Node.new(:func_def, val[1], [nil, val[4]])
-
+     result = Node.new(:func_def, val[1], [nil, val[4]])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 62)
+module_eval(<<'.,.,', 'parse.y', 63)
   def _reduce_25(val, _values, result)
-          result = Node.new(:func_def, val[1], [nil, val[2]])
-
+     result = Node.new(:func_def, val[1], [nil, val[2]])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 66)
+module_eval(<<'.,.,', 'parse.y', 67)
   def _reduce_26(val, _values, result)
      result = Node.new(:include, val[1])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 68)
+module_eval(<<'.,.,', 'parse.y', 69)
   def _reduce_27(val, _values, result)
      result = Node.new(:comment, val[0])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 70)
+module_eval(<<'.,.,', 'parse.y', 71)
   def _reduce_28(val, _values, result)
      result = Node.new(:assignment, val[0], [val[2]])
     result
@@ -445,7 +441,7 @@ module_eval(<<'.,.,', 'parse.y', 70)
 
 # reduce 29 omitted
 
-module_eval(<<'.,.,', 'parse.y', 77)
+module_eval(<<'.,.,', 'parse.y', 78)
   def _reduce_30(val, _values, result)
      result = val[0,3].join
     result
@@ -454,14 +450,14 @@ module_eval(<<'.,.,', 'parse.y', 77)
 
 # reduce 31 omitted
 
-module_eval(<<'.,.,', 'parse.y', 79)
+module_eval(<<'.,.,', 'parse.y', 80)
   def _reduce_32(val, _values, result)
      result = Node.new(:string, val[0])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 80)
+module_eval(<<'.,.,', 'parse.y', 81)
   def _reduce_33(val, _values, result)
      result = Node.new(:integer, val[0].to_i)
     result
@@ -470,84 +466,84 @@ module_eval(<<'.,.,', 'parse.y', 80)
 
 # reduce 34 omitted
 
-module_eval(<<'.,.,', 'parse.y', 82)
+module_eval(<<'.,.,', 'parse.y', 83)
   def _reduce_35(val, _values, result)
      result = Node.new(val[1], nil, [val[0], val[2]])
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 86)
+module_eval(<<'.,.,', 'parse.y', 87)
   def _reduce_36(val, _values, result)
      result = :plus
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 87)
+module_eval(<<'.,.,', 'parse.y', 88)
   def _reduce_37(val, _values, result)
      result = :minus
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 88)
+module_eval(<<'.,.,', 'parse.y', 89)
   def _reduce_38(val, _values, result)
      result = :multiply
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 89)
+module_eval(<<'.,.,', 'parse.y', 90)
   def _reduce_39(val, _values, result)
      result = :divide
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 90)
+module_eval(<<'.,.,', 'parse.y', 91)
   def _reduce_40(val, _values, result)
      result = :greater
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 91)
+module_eval(<<'.,.,', 'parse.y', 92)
   def _reduce_41(val, _values, result)
      result = :less
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 92)
+module_eval(<<'.,.,', 'parse.y', 93)
   def _reduce_42(val, _values, result)
      result = :equal
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 93)
+module_eval(<<'.,.,', 'parse.y', 94)
   def _reduce_43(val, _values, result)
      result = :mod
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 97)
+module_eval(<<'.,.,', 'parse.y', 98)
   def _reduce_44(val, _values, result)
      result = Node.new(:boolean, true)
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 98)
+module_eval(<<'.,.,', 'parse.y', 99)
   def _reduce_45(val, _values, result)
      result = Node.new(:boolean, false)
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 101)
+module_eval(<<'.,.,', 'parse.y', 102)
   def _reduce_46(val, _values, result)
      result = Node.new(:blank_line, "")
     result

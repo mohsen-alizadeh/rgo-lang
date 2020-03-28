@@ -18,7 +18,7 @@ rule
 		;
 
 	statement
-    :
+    : /* NONDE */
     | comment_statement
 		| module_statement
 		| require_statement
@@ -38,30 +38,31 @@ rule
 
 	require_statement: KEYWORD_REQUIRE STRING { result = Node.new(:require, val[1]) }
 
-	module_statement: KEYWORD_MODULE CONSTANT statement_list KEYWORD_END {
-			result = Node.new(:module, val[1], val[2])
-		}
+	module_statement
+    : KEYWORD_MODULE CONSTANT statement_list KEYWORD_END
+      { result = Node.new(:module, val[1], val[2]) }
 		;
 
 	func_call: IDENTIFIER LPAREN args RPAREN { result = Node.new(:func_call, val[0], val[2]) }
 
   args: arg { result = Array(val[0]) } | args arg { result = val }
 
-	arg: STRING { result = Node.new(:string, val[0]) }
-      | IDENTIFIER { result = Node.new(:variable, val[0]) }
-      ;
+	arg
+    : STRING      { result = Node.new(:string, val[0])    }
+    | IDENTIFIER  { result = Node.new(:variable, val[0])  }
+    ;
 
 
-  func_def:
-    KEYWORD_DEF IDENTIFIER LPAREN args RPAREN statement_list KEYWORD_END {
-      result = Node.new(:func_def, val[1], [val[3], val[5]])
-    }
-    | KEYWORD_DEF IDENTIFIER LPAREN RPAREN statement_list KEYWORD_END {
-      result = Node.new(:func_def, val[1], [nil, val[4]])
-    }
-    | KEYWORD_DEF IDENTIFIER statement_list KEYWORD_END {
-      result = Node.new(:func_def, val[1], [nil, val[2]])
-    }
+  func_def
+    : KEYWORD_DEF IDENTIFIER LPAREN args RPAREN statement_list KEYWORD_END
+      { result = Node.new(:func_def, val[1], [val[3], val[5]]) }
+
+    | KEYWORD_DEF IDENTIFIER LPAREN RPAREN statement_list KEYWORD_END
+      { result = Node.new(:func_def, val[1], [nil, val[4]]) }
+
+    | KEYWORD_DEF IDENTIFIER statement_list KEYWORD_END
+      { result = Node.new(:func_def, val[1], [nil, val[2]]) }
+
     ;
 
   include_statement: KEYWORD_INCLUDE CONSTANT { result = Node.new(:include, val[1]) };
@@ -77,8 +78,8 @@ rule
 	expression
 		: IDENTIFIER '(' ')' { result = val[0,3].join }
 		| IDENTIFIER
-    | STRING { result = Node.new(:string, val[0]) }
-    | INTEGER { result = Node.new(:integer, val[0].to_i) }
+    | STRING      { result = Node.new(:string, val[0])        }
+    | INTEGER     { result = Node.new(:integer, val[0].to_i)  }
     | boolean
     | expression number_operator expression { result = Node.new(val[1], nil, [val[0], val[2]]) }
 		;
