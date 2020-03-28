@@ -3,7 +3,6 @@ package main
 import "fmt"
 
 func main() {
-
   // string
   var a = "mohsen"
   fmt.Println(a)

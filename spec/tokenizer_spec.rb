@@ -43,6 +43,7 @@ describe Rgo::Tokenizer do
       :sample_1,
       [
         [:KEYWORD_REQUIRE, "require"],
+        [:BLANK_LINE, ""],
         [:STRING, "fmt"],
         [:KEYWORD_MODULE, "module"],
         [:CONSTANT, "Main"],
@@ -50,7 +51,8 @@ describe Rgo::Tokenizer do
         [:LPAREN, "("],
         [:STRING, "hello world"],
         [:RPAREN, ")"],
-        [:KEYWORD_END, "end"]
+        [:KEYWORD_END, "end"],
+        [:BLANK_LINE, ""]
       ],
       <<-EOL
         require "fmt"

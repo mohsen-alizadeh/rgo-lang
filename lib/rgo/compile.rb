@@ -32,7 +32,9 @@ module Rgo
 
       out = []
       out << "package #{node.name.downcase}"
+      out << ""
       out << compile_statements(node.children, indent)
+      out << ""
 
       pretty out, indent
     end
@@ -52,7 +54,13 @@ module Rgo
     end
 
     def pretty(out, indent = 0)
-      out.map do |o| ("  " * indent) + o end.join("\n")
+      out.map do |line|
+        if line.empty?
+          ""
+        else
+          ("  " * indent) + line
+        end
+      end.join("\n")
     end
 
 
@@ -115,6 +123,10 @@ module Rgo
 
     def compile_boolean(node, indent)
       node.name.to_s
+    end
+
+    def compile_blank_line(node, indent)
+      ""
     end
   end
 end

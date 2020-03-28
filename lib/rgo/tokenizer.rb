@@ -12,7 +12,11 @@ module Rgo
 
       until scanner.empty?
         case
-          when scanner.scan(/\s+/)
+          when m=scanner.scan(/\s+/)
+            blank_lines = m.count("\n") - 1
+            blank_lines.times do
+              @q.push [:BLANK_LINE, ""]
+            end
           when m = scanner.scan(Expression::INTEGER)
             @q.push [:INTEGER, m.to_i]
           when m = scanner.scan(Expression::KEYWORDS)

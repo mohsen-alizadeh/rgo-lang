@@ -11,6 +11,7 @@ rule
 		;
 
 	statement
+    :
     | comment_statement
 		| module_statement
 		| require_statement
@@ -18,6 +19,7 @@ rule
     | func_def
     | include_statement
     | assignment_statement
+    | blank_line
 		;
 
 	if_statement
@@ -73,6 +75,8 @@ rule
     : KEYWORD_TRUE  { result = Node.new(:boolean, true) }
     | KEYWORD_FALSE { result = Node.new(:boolean, false) }
     ;
+
+  blank_line: BLANK_LINE { result = Node.new(:blank_line, "") }
 end
 
 ---- header ----
