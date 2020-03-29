@@ -10,6 +10,8 @@ not published as a gem yet
 
     $ rgo hello_world.rgo
 
+checkout [Samples](samples)
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
