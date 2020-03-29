@@ -14,7 +14,7 @@ require_relative './node.rb'
 module Rgo
   class Parser < Racc::Parser
 
-module_eval(<<'...end parse.y/module_eval...', 'parse.y', 124)
+module_eval(<<'...end parse.y/module_eval...', 'parse.y', 127)
 
 def parse(str)
   @q = Tokenizer.new(str).tokens
@@ -262,7 +262,7 @@ racc_token_table = {
 
 racc_nt_base = 37
 
-racc_use_result_var = true
+racc_use_result_var = false
 
 Racc_arg = [
   racc_action_table,
@@ -350,10 +350,9 @@ Racc_debug_parser = false
 
 # reduce 2 omitted
 
-module_eval(<<'.,.,', 'parse.y', 16)
-  def _reduce_3(val, _values, result)
-     result = val
-    result
+module_eval(<<'.,.,', 'parse.y', 17)
+  def _reduce_3(val, _values)
+     val
   end
 .,.,
 
@@ -381,232 +380,201 @@ module_eval(<<'.,.,', 'parse.y', 16)
 
 # reduce 15 omitted
 
-module_eval(<<'.,.,', 'parse.y', 36)
-  def _reduce_16(val, _values, result)
-     result = Node.new(:if, val[2], val[4])
-    result
+module_eval(<<'.,.,', 'parse.y', 37)
+  def _reduce_16(val, _values)
+     Node.new(:if, val[2], val[4])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 39)
-  def _reduce_17(val, _values, result)
-     result = Node.new(:if_else, val[2], [val[4], val[6]])
-    result
+module_eval(<<'.,.,', 'parse.y', 40)
+  def _reduce_17(val, _values)
+     Node.new(:if_else, val[2], [val[4], val[6]])
   end
 .,.,
 
 # reduce 18 omitted
 
-module_eval(<<'.,.,', 'parse.y', 45)
-  def _reduce_19(val, _values, result)
-     result = Node.new(:require, val[1])
-    result
+module_eval(<<'.,.,', 'parse.y', 46)
+  def _reduce_19(val, _values)
+     Node.new(:require, val[1])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 49)
-  def _reduce_20(val, _values, result)
-     result = Node.new(:module, val[1], val[2])
-    result
+module_eval(<<'.,.,', 'parse.y', 50)
+  def _reduce_20(val, _values)
+     Node.new(:module, val[1], val[2])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 52)
-  def _reduce_21(val, _values, result)
-     result = Node.new(:func_call, val[0], val[2])
-    result
+module_eval(<<'.,.,', 'parse.y', 53)
+  def _reduce_21(val, _values)
+     Node.new(:func_call, val[0], val[2])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 54)
-  def _reduce_22(val, _values, result)
-     result = Array(val[0])
-    result
-  end
-.,.,
-
-module_eval(<<'.,.,', 'parse.y', 54)
-  def _reduce_23(val, _values, result)
-     result = val
-    result
+module_eval(<<'.,.,', 'parse.y', 56)
+  def _reduce_22(val, _values)
+     Array(val[0])
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 57)
-  def _reduce_24(val, _values, result)
-     result = Node.new(:string, val[0])
-    result
+  def _reduce_23(val, _values)
+     val
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 58)
-  def _reduce_25(val, _values, result)
-     result = Node.new(:variable, val[0])
-    result
+module_eval(<<'.,.,', 'parse.y', 60)
+  def _reduce_24(val, _values)
+     Node.new(:string, val[0])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 64)
-  def _reduce_26(val, _values, result)
-     result = Node.new(:func_def, val[1], [val[3], val[5]])
-    result
+module_eval(<<'.,.,', 'parse.y', 61)
+  def _reduce_25(val, _values)
+     Node.new(:variable, val[0])
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 67)
-  def _reduce_27(val, _values, result)
-     result = Node.new(:func_def, val[1], [nil, val[4]])
-    result
+  def _reduce_26(val, _values)
+     Node.new(:func_def, val[1], [val[3], val[5]])
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 70)
-  def _reduce_28(val, _values, result)
-     result = Node.new(:func_def, val[1], [nil, val[2]])
-    result
+  def _reduce_27(val, _values)
+     Node.new(:func_def, val[1], [nil, val[4]])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 74)
-  def _reduce_29(val, _values, result)
-     result = Node.new(:include, val[1])
-    result
+module_eval(<<'.,.,', 'parse.y', 73)
+  def _reduce_28(val, _values)
+     Node.new(:func_def, val[1], [nil, val[2]])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 76)
-  def _reduce_30(val, _values, result)
-     result = Node.new(:comment, val[0])
-    result
+module_eval(<<'.,.,', 'parse.y', 77)
+  def _reduce_29(val, _values)
+     Node.new(:include, val[1])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 78)
-  def _reduce_31(val, _values, result)
-     result = Node.new(:assignment, val[0], [val[2]])
-    result
+module_eval(<<'.,.,', 'parse.y', 79)
+  def _reduce_30(val, _values)
+     Node.new(:comment, val[0])
+  end
+.,.,
+
+module_eval(<<'.,.,', 'parse.y', 81)
+  def _reduce_31(val, _values)
+     Node.new(:assignment, val[0], [val[2]])
   end
 .,.,
 
 # reduce 32 omitted
 
-module_eval(<<'.,.,', 'parse.y', 85)
-  def _reduce_33(val, _values, result)
-     result = Node.new(:alias, val[1], val[2])
-    result
+module_eval(<<'.,.,', 'parse.y', 88)
+  def _reduce_33(val, _values)
+     Node.new(:alias, val[1], val[2])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 89)
-  def _reduce_34(val, _values, result)
-     result = val[0,3].join
-    result
+module_eval(<<'.,.,', 'parse.y', 92)
+  def _reduce_34(val, _values)
+     val[0,3].join
   end
 .,.,
 
 # reduce 35 omitted
 
-module_eval(<<'.,.,', 'parse.y', 91)
-  def _reduce_36(val, _values, result)
-     result = Node.new(:string, val[0])
-    result
+module_eval(<<'.,.,', 'parse.y', 94)
+  def _reduce_36(val, _values)
+     Node.new(:string, val[0])
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 92)
-  def _reduce_37(val, _values, result)
-     result = Node.new(:integer, val[0].to_i)
-    result
+module_eval(<<'.,.,', 'parse.y', 95)
+  def _reduce_37(val, _values)
+     Node.new(:integer, val[0].to_i)
   end
 .,.,
 
 # reduce 38 omitted
 
-module_eval(<<'.,.,', 'parse.y', 94)
-  def _reduce_39(val, _values, result)
-     result = Node.new(val[1], nil, [val[0], val[2]])
-    result
-  end
-.,.,
-
-module_eval(<<'.,.,', 'parse.y', 98)
-  def _reduce_40(val, _values, result)
-     result = :plus
-    result
-  end
-.,.,
-
-module_eval(<<'.,.,', 'parse.y', 99)
-  def _reduce_41(val, _values, result)
-     result = :minus
-    result
-  end
-.,.,
-
-module_eval(<<'.,.,', 'parse.y', 100)
-  def _reduce_42(val, _values, result)
-     result = :multiply
-    result
+module_eval(<<'.,.,', 'parse.y', 97)
+  def _reduce_39(val, _values)
+     Node.new(val[1], nil, [val[0], val[2]])
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 101)
-  def _reduce_43(val, _values, result)
-     result = :divide
-    result
+  def _reduce_40(val, _values)
+     :plus
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 102)
-  def _reduce_44(val, _values, result)
-     result = :greater
-    result
+  def _reduce_41(val, _values)
+     :minus
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 103)
-  def _reduce_45(val, _values, result)
-     result = :less
-    result
+  def _reduce_42(val, _values)
+     :multiply
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 104)
-  def _reduce_46(val, _values, result)
-     result = :equal
-    result
+  def _reduce_43(val, _values)
+     :divide
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 105)
-  def _reduce_47(val, _values, result)
-     result = :mod
-    result
+  def _reduce_44(val, _values)
+     :greater
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 109)
-  def _reduce_48(val, _values, result)
-     result = Node.new(:boolean, true)
-    result
+module_eval(<<'.,.,', 'parse.y', 106)
+  def _reduce_45(val, _values)
+     :less
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 110)
-  def _reduce_49(val, _values, result)
-     result = Node.new(:boolean, false)
-    result
+module_eval(<<'.,.,', 'parse.y', 107)
+  def _reduce_46(val, _values)
+     :equal
+  end
+.,.,
+
+module_eval(<<'.,.,', 'parse.y', 108)
+  def _reduce_47(val, _values)
+     :mod
+  end
+.,.,
+
+module_eval(<<'.,.,', 'parse.y', 112)
+  def _reduce_48(val, _values)
+     Node.new(:boolean, true)
   end
 .,.,
 
 module_eval(<<'.,.,', 'parse.y', 113)
-  def _reduce_50(val, _values, result)
-     result = Node.new(:blank_line, "")
-    result
+  def _reduce_49(val, _values)
+     Node.new(:boolean, false)
   end
 .,.,
 
-def _reduce_none(val, _values, result)
+module_eval(<<'.,.,', 'parse.y', 116)
+  def _reduce_50(val, _values)
+     Node.new(:blank_line, "")
+  end
+.,.,
+
+def _reduce_none(val, _values)
   val[0]
 end
 
