@@ -12,6 +12,11 @@ not published as a gem yet
 
 checkout [Samples](samples)
 
+## TODO
+
+* alias functions
+* function call without parentheses
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
