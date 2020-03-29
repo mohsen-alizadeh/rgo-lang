@@ -1,5 +1,7 @@
 
 module Fmt
+  alias puts println
+
   def println()
   end
 end

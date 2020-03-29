@@ -21,6 +21,8 @@ task :dev do
   compile = Rgo::Compile.new(statements)
   out = compile.compile
 
+  puts out
+
   puts compile.functions
   puts compile.function_to_module_map
 end

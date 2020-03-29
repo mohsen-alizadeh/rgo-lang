@@ -1,12 +1,13 @@
 module Rgo
   class Compile
-    attr_reader :functions, :function_to_module_map
+    attr_reader :functions, :function_to_module_map, :aliases
 
     def initialize(statements)
       @statements = statements
       @functions = { private: [], public: [] }
       @function_access_type = :public
       @current_module = nil
+      @aliases = {}
       @function_to_module_map = {}
     end
 
@@ -47,20 +48,30 @@ module Rgo
       compile.compile
 
       compile.functions[:public].each do |func|
-        @function_to_module_map[func] = node.name
+        @function_to_module_map[func] = [node.name, func]
+      end
+
+      compile.aliases.each do |name, func|
+        @function_to_module_map[name] = [node.name, func]
       end
 
       "import \"#{node.name.downcase}\""
     end
 
-    def pretty(out, indent = 0)
-      out.map do |line|
+    def pretty(lines, indent = 0)
+      out = []
+
+      lines.each do |line|
+        next if line.nil?
+
         if line.empty?
-          ""
+          out << ""
         else
-          ("  " * indent) + line
+          out << ("  " * indent) + line
         end
-      end.join("\n")
+      end
+
+      out.join("\n")
     end
 
 
@@ -69,9 +80,9 @@ module Rgo
     end
 
     def compile_func_call(node, indent)
-      mod = @function_to_module_map[node.name]
+      mod, func = @function_to_module_map[node.name]
 
-      "#{mod.downcase}.#{node.name.capitalize}(" + compile_args(node.children) + ")"
+      "#{mod.downcase}.#{func.capitalize}(" + compile_args(node.children) + ")"
     end
 
     def compile_args(nodes)
@@ -172,6 +183,12 @@ module Rgo
       out << "}"
 
       pretty out, indent
+    end
+
+    def compile_alias(node, indent)
+      @aliases[node.name] = node.children
+
+      nil
     end
   end
 end

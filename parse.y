@@ -29,6 +29,7 @@ rule
     | blank_line
     | if_statement
     | expression_statement
+    | alias_statement
 		;
 
   if_statement
@@ -73,6 +74,10 @@ rule
 
   expression_statement
     : expression
+    ;
+
+  alias_statement
+    : KEYWORD_ALIAS IDENTIFIER IDENTIFIER { result = Node.new(:alias, val[1], val[2]) }
     ;
 
 	expression

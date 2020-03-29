@@ -14,7 +14,6 @@ checkout [Samples](samples)
 
 ## TODO
 
-* alias functions
 * function call without parentheses
 
 ## License
