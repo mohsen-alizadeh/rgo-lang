@@ -185,6 +185,17 @@ module Rgo
       pretty out, indent
     end
 
+    def compile_if_else(node, indent)
+      out = []
+      out << "if " + compile_node(node.name) + " {"
+      out << "  " + compile_node(node.children[0])
+      out << "} else {"
+      out << "  " + compile_node(node.children[1])
+      out << "}"
+
+      pretty out, indent
+    end
+
     def compile_alias(node, indent)
       @aliases[node.name] = node.children
 

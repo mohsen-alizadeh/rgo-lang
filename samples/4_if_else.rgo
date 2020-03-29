@@ -5,5 +5,11 @@ module Main
     if (7%2 == 0)
       println("7 is even")
     end
+
+    if (7%2 == 0)
+      println("7 is even")
+    else
+      println("7 is odd")
+    end
   end
 end

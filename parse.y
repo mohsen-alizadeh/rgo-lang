@@ -35,7 +35,13 @@ rule
   if_statement
     : KEYWORD_IF LPAREN expression RPAREN statement_list KEYWORD_END
       { result = Node.new(:if, val[2], val[4]) }
+
+    | KEYWORD_IF LPAREN expression RPAREN statement_list KEYWORD_ELSE statement_list KEYWORD_END
+      { result = Node.new(:if_else, val[2], [val[4], val[6]]) }
     ;
+
+  else_statement
+    : KEYWORD_ELSE statement_list
 
 	require_statement: KEYWORD_REQUIRE STRING { result = Node.new(:require, val[1]) }
 
