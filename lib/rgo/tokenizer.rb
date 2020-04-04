@@ -51,6 +51,8 @@ module Rgo
             @q.push [:LPAREN, "("]
           when m = scanner.scan(/\)/)
             @q.push [:RPAREN, ")"]
+          when m = scanner.scan(/\,/)
+            @q.push [:COMMA, ","]
           when m = scanner.scan(Expression::INSTANCE_VARIABLE)
             @q.push [:INSTANCE_VARIABLE, m[1..-1]]
           when m = scanner.scan(/.|\n/)
@@ -92,7 +94,7 @@ module Rgo
 
       INSTANCE_VARIABLE= /\@\w+/
 
-      KEYWORDS = /class|end|require|module|def|include|true|false|if|else|elsif|alias/
+      KEYWORDS = /class|end|require|module|def|include|true|false|if|else|elsif|alias|return/
     end # Expression
   end
 end

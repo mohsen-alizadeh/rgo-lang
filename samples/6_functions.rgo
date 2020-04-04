@@ -1,0 +1,6 @@
+module Main
+  # type (int, int) -> int
+  def plus(a, b)
+    return a + b
+  end
+end

@@ -32,6 +32,7 @@ rule
     | if_statement
     | expression_statement
     | alias_statement
+    | return_statement
 		;
 
   if_statement
@@ -66,7 +67,7 @@ rule
 
 
   func_def
-    : KEYWORD_DEF IDENTIFIER LPAREN args RPAREN statement_list KEYWORD_END
+    : KEYWORD_DEF IDENTIFIER LPAREN func_def_args RPAREN statement_list KEYWORD_END
       { Node.new(:func_def, val[1], [val[3], val[5]]) }
 
     | KEYWORD_DEF IDENTIFIER LPAREN RPAREN statement_list KEYWORD_END
@@ -75,6 +76,15 @@ rule
     | KEYWORD_DEF IDENTIFIER statement_list KEYWORD_END
       { Node.new(:func_def, val[1], [nil, val[2]]) }
 
+    ;
+
+  func_def_args
+    : func_def_arg                      { val[0]                    }
+    | func_def_args COMMA func_def_arg  { [val[0], val[2]].flatten  }
+    ;
+
+  func_def_arg
+    : IDENTIFIER { Node.new(:variable, val[0]) }
     ;
 
   include_statement: KEYWORD_INCLUDE CONSTANT { Node.new(:include, val[1]) };
@@ -95,13 +105,18 @@ rule
 
 	expression
 		: IDENTIFIER '(' ')' { val[0,3].join }
-		| IDENTIFIER
+		| IDENTIFIER  { Node.new(:variable, val[0])      }
     | STRING      { Node.new(:string, val[0])        }
     | INTEGER     { Node.new(:integer, val[0].to_i)  }
     | boolean
     | expression number_operator expression { Node.new(val[1], nil, [val[0], val[2]]) }
     | CONSTANT    { Node.new(:constant, val[0])      }
 		;
+
+
+  return_statement
+    : KEYWORD_RETURN expression { Node.new(:return, nil, val[1]) }
+    ;
 
   number_operator
     : PLUS      { :plus      }

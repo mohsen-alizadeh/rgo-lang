@@ -9,6 +9,7 @@ module Rgo
       @current_module = nil
       @aliases = {}
       @function_to_module_map = {}
+      @next_func_type = nil
     end
 
     def compile
@@ -110,18 +111,51 @@ module Rgo
       # @functions[@current_module][@function_access_type] << node.name
       @functions[@function_access_type] << node.name
 
+      args = compile_func_def_args(node.children[0])
+      return_type = @next_func_type.nil? ? "" : @next_func_type[:return].to_s + " "
+
+
       out = []
-      out << "func #{node.name}() {"
+      out << "func #{node.name}(#{args}) #{return_type}{"
       out << compile_statements(node.children[1], indent + 1)
       out << "}"
+
+      @next_func_type = nil
 
       pretty out, indent
     end
 
-    def compile_comment(node, indent)
-      "//#{node.name}"
+    def compile_func_def_args(nodes)
+      return if nodes.nil? || nodes.empty?
+
+      raise "@next_func_type is empty" if @next_func_type.nil?
+
+        puts "@next_function_type : #{@next_func_type.inspect}"
+
+      puts "nodes args : "
+      pp nodes
+
+      out = []
+      nodes.each_with_index do |node, i|
+        out << node.name + " " + @next_func_type[:args][i]
+      end
+
+      out.join(", ")
     end
 
+    def compile_comment(node, indent)
+      if node.name.start_with?(" type (")
+        @next_func_type = {
+          args: node.name.split("(")[1].split(")")[0].split(",").map(&:strip),
+          return: node.name.split("->")[1].strip
+        }
+
+        puts "@next_function_type : #{@next_func_type.inspect}"
+
+        return
+      end
+      "//#{node.name}"
+    end
 
     def compile_assignment(node, indent)
       "var #{node.name} = #{compile_expression(node.children.first, 0)}"
@@ -137,6 +171,10 @@ module Rgo
 
     def compile_string(node, indent)
       "\"#{node.name}\""
+    end
+
+    def compile_variable(node, indent)
+      node.name
     end
 
     def compile_constant(node, indent)
@@ -211,6 +249,12 @@ module Rgo
       @aliases[node.name] = node.children
 
       nil
+    end
+
+    def compile_return(node, indent)
+      puts "compile return "
+      pp node
+      "return " + compile_expression(node.children, indent)
     end
   end
 end
