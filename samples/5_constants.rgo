@@ -1,0 +1,15 @@
+module Main
+  include Fmt
+
+  NAME = "constant"
+
+  def main
+    println(name)
+
+    NUMBER = 500000000
+
+    SECOND_NUMBER = 200 / NUMBER
+
+    println(SECOND_NUMBER)
+  end
+end

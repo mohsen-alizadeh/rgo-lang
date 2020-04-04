@@ -94,6 +94,10 @@ module Rgo
           out << "\"#{node.name}\""
         when :variable
           out << node.name
+        when :constant
+          out << node.name.downcase
+        else
+          raise "unexpected argument type passed : #{node.type}"
         end
       end
 
@@ -123,6 +127,9 @@ module Rgo
       "var #{node.name} = #{compile_expression(node.children.first, 0)}"
     end
 
+    def compile_constant_assignment(node, indent)
+      "const #{node.name.downcase} = #{compile_expression(node.children.first, 0)}"
+    end
 
     def compile_expression(node, indent)
       send("compile_#{node.type}", node, indent)
@@ -130,6 +137,10 @@ module Rgo
 
     def compile_string(node, indent)
       "\"#{node.name}\""
+    end
+
+    def compile_constant(node, indent)
+      node.name.downcase
     end
 
     def compile_boolean(node, indent)

@@ -27,6 +27,7 @@ rule
     | func_def
     | include_statement
     | assignment_statement
+    | constant_assignment_statement
     | blank_line
     | if_statement
     | expression_statement
@@ -60,6 +61,7 @@ rule
 	arg
     : STRING      { Node.new(:string, val[0])    }
     | IDENTIFIER  { Node.new(:variable, val[0])  }
+    | expression  { val[0] }
     ;
 
 
@@ -81,6 +83,8 @@ rule
 
   assignment_statement: IDENTIFIER KEYWORD_ASSIGN expression { Node.new(:assignment, val[0], [val[2]]) }
 
+  constant_assignment_statement: CONSTANT KEYWORD_ASSIGN expression { Node.new(:constant_assignment, val[0], [val[2]]) }
+
   expression_statement
     : expression
     ;
@@ -96,6 +100,7 @@ rule
     | INTEGER     { Node.new(:integer, val[0].to_i)  }
     | boolean
     | expression number_operator expression { Node.new(val[1], nil, [val[0], val[2]]) }
+    | CONSTANT    { Node.new(:constant, val[0])      }
 		;
 
   number_operator
