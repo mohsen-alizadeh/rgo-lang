@@ -234,7 +234,7 @@ racc_reduce_table = [
   1, 43, :_reduce_36,
   3, 49, :_reduce_37,
   3, 50, :_reduce_38,
-  1, 53, :_reduce_none,
+  1, 53, :_reduce_39,
   3, 54, :_reduce_40,
   3, 56, :_reduce_41,
   1, 56, :_reduce_42,
@@ -553,7 +553,11 @@ module_eval(<<'.,.,', 'parse.y', 95)
   end
 .,.,
 
-# reduce 39 omitted
+module_eval(<<'.,.,', 'parse.y', 98)
+  def _reduce_39(val, _values)
+     Node.new(:return, nil, val[0])
+  end
+.,.,
 
 module_eval(<<'.,.,', 'parse.y', 102)
   def _reduce_40(val, _values)

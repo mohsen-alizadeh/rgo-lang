@@ -96,7 +96,7 @@ rule
   constant_assignment_statement: CONSTANT KEYWORD_ASSIGN expression { Node.new(:constant_assignment, val[0], [val[2]]) }
 
   expression_statement
-    : expression
+    : expression { Node.new(:return, nil, val[0])    }
     ;
 
   alias_statement
