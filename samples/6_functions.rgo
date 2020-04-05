@@ -1,6 +1,19 @@
 module Main
+  include Fmt
+
   # type (int, int) -> int
   def plus(a, b)
     a + b
+  end
+
+  # type (int, int, int) -> int
+  def plus_plus(a, b, c)
+    a + b + c
+  end
+
+  def main
+    res = plus(1, 2)
+
+    println(res)
   end
 end

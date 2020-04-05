@@ -83,33 +83,44 @@ module Rgo
     def compile_func_call(node, indent)
       mod, func = @function_to_module_map[node.name]
 
-      "#{mod.downcase}.#{func.capitalize}(" + compile_args(node.children) + ")"
+      out = ""
+
+      if mod.nil?
+        out << func
+      else
+        out << mod.downcase + "." + func.capitalize
+      end
+
+      out << "(" + compile_args(node.children) + ")"
+
+      out
     end
 
     def compile_args(nodes)
+      puts "args : "
+      pp nodes
+
       out = []
 
       nodes.each do |node|
         case node.type
         when :string
           out << "\"#{node.name}\""
-        when :variable
-          out << node.name
+        when :variable, :integer
+          out << node.name.to_s
         when :constant
           out << node.name.downcase
         else
           raise "unexpected argument type passed : #{node.type}"
-        end
+       end
       end
 
-      pretty out, 0
+      out.join(", ")
     end
 
     def compile_func_def(node, indent)
-      # @functions[@current_module] = {}
-      # @functions[@current_module][@function_access_type] ||= []
-      # @functions[@current_module][@function_access_type] << node.name
       @functions[@function_access_type] << node.name
+      @function_to_module_map[node.name] = [nil, node.name]
 
       args = compile_func_def_args(node.children[0])
       return_type = @next_func_type.nil? ? "" : @next_func_type[:return].to_s + " "
@@ -121,6 +132,7 @@ module Rgo
       out << "}"
 
       @next_func_type = nil
+
 
       pretty out, indent
     end

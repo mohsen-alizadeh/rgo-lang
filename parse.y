@@ -56,8 +56,9 @@ rule
 	func_call: IDENTIFIER LPAREN args RPAREN { Node.new(:func_call, val[0], val[2]) }
 
   args
-    : arg       { Array(val[0]) }
-    | args arg  { val           }
+    : arg             { Array(val[0]).flatten     }
+    | args COMMA arg  { [val[0], val[2]].flatten   }
+    ;
 
 	arg
     : STRING      { Node.new(:string, val[0])    }
@@ -111,6 +112,7 @@ rule
     | boolean
     | expression number_operator expression { Node.new(val[1], nil, [val[0], val[2]]) }
     | CONSTANT    { Node.new(:constant, val[0])      }
+    | func_call
 		;
 
 
