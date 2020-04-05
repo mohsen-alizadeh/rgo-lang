@@ -115,6 +115,7 @@ rule
     | CONSTANT    { Node.new(:constant, val[0])      }
     | func_cal
     | INSTANCE_VARIABLE   { Node.new(:instance_variable_get,  val[0]) }
+    | class_new
 		;
 
 
@@ -150,6 +151,22 @@ rule
     | func_def
     | blank_line
     ;
+
+
+  class_new
+    : CONSTANT DOT IDENTIFIER LPAREN arg_options RPAREN { Node.new(:class_method_call, val[0], [val[2], val[4]]) }
+    ;
+
+  arg_options
+    : arg_option
+    | arg_options COMMA arg_option { [val[0], val[2]] }
+    ;
+
+  arg_option
+    : none
+    | IDENTIFIER COLON expression { [val[0], val[2]] }
+    ;
+
 
 /*
   instance_variables_def

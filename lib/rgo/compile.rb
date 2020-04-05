@@ -311,5 +311,27 @@ module Rgo
     def compile_instance_variable_get(node, indent)
       "s." + node.name
     end
+
+    def compile_class_method_call(node, indent)
+      method_name = node.children[0]
+
+      raise "method #{method_name} is not implemented" unless method_name == "new"
+
+      puts "class method call : "
+
+      args = node.children[1]
+
+      out = ""
+      out << node.name.downcase
+      out << "{"
+
+      out << args.map do |arg|
+        arg[0].to_s + ": " + compile_expression(arg[1], 0)
+      end.join(", ")
+
+      out << "}"
+
+      out
+    end
   end
 end
