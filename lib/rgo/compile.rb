@@ -11,6 +11,8 @@ module Rgo
       @function_to_module_map = {}
       @next_func_type = nil
       @local_variables = []
+      @next_instance_variable_type = nil
+      @current_class = nil
     end
 
     def compile
@@ -115,8 +117,15 @@ module Rgo
       return_type = @next_func_type.nil? ? "" : @next_func_type[:return].to_s + " "
 
 
+      method_receiver =
+        if @current_class.nil?
+          ""
+        else
+          " (s #{@current_class.downcase}) "
+        end
+
       out = []
-      out << "func #{node.name}(#{args}) #{return_type}{"
+      out << "func #{method_receiver}#{node.name}(#{args}) #{return_type}{"
       out << compile_statements(node.children[1], indent + 1)
       out << "}"
 
@@ -154,6 +163,10 @@ module Rgo
         }
 
         puts "@next_function_type : #{@next_func_type.inspect}"
+
+        return
+      elsif node.name.start_with?(" type ")
+        @next_instance_variable_type = node.name.split("type")[1].strip
 
         return
       end
@@ -267,6 +280,36 @@ module Rgo
       puts "compile return "
       pp node
       "return " + compile_expression(node.children, indent)
+    end
+
+    def compile_class(node, indent)
+      @current_class = node.name.downcase
+
+      out = []
+
+      out << "type #{node.name.downcase} struct {"
+      out << compile_statements(node.children[0], indent + 1)
+      out << "}"
+
+      out << compile_statements(node.children[1], indent)
+
+      @current_class = nil
+
+      pretty out, indent
+    end
+
+    def compile_instance_variable_def(node, indent)
+      raise "type missing for instance variable @#{node.name}" if @next_instance_variable_type.nil?
+
+      out = node.name + " " + @next_instance_variable_type
+
+      @next_instance_variable_type = nil
+
+      pretty [out], indent
+    end
+
+    def compile_instance_variable_get(node, indent)
+      "s." + node.name
     end
   end
 end

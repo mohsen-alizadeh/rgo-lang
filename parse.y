@@ -33,6 +33,7 @@ rule
     | expression_statement
     | alias_statement
     | return_statement
+    | class_statement
 		;
 
   if_statement
@@ -105,20 +106,68 @@ rule
     ;
 
 	expression
-		: IDENTIFIER '(' ')' { val[0,3].join }
+		: IDENTIFIER '(' ')'    { val[0,3].join }
 		| IDENTIFIER  { Node.new(:variable, val[0])      }
     | STRING      { Node.new(:string, val[0])        }
     | INTEGER     { Node.new(:integer, val[0].to_i)  }
     | boolean
     | expression number_operator expression { Node.new(val[1], nil, [val[0], val[2]]) }
     | CONSTANT    { Node.new(:constant, val[0])      }
-    | func_call
+    | func_cal
+    | INSTANCE_VARIABLE   { Node.new(:instance_variable_get,  val[0]) }
 		;
 
 
   return_statement
     : KEYWORD_RETURN expression { Node.new(:return, nil, val[1]) }
     ;
+
+  class_statement
+    : KEYWORD_CLASS CONSTANT instance_variables_def methods_def KEYWORD_END
+      { Node.new(:class, val[1], [val[2], val[3]]) }
+    ;
+
+  instance_variables_def
+    : instance_variable_def
+    | instance_variables_def instance_variable_def
+      { val.flatten }
+    ;
+
+  instance_variable_def
+    : INSTANCE_VARIABLE { Node.new(:instance_variable_def, val[0]) }
+    | blank_line
+    | comment_statement
+    ;
+
+  methods_def
+    : method_def
+    | methods_def method_def
+      { val.flatten }
+    ;
+
+  method_def
+    : comment_statement
+    | func_def
+    | blank_line
+    ;
+
+/*
+  instance_variables_def
+    : instance_variable_def
+    | instance_variables_def instance_variable_def
+    ;
+
+  instance_variable_def
+    : comment_statement
+    | INSTANCE_VARIABLE
+    | blank_line
+    | none
+    ;
+
+  methods_def
+    : none
+    ;
+*/
 
   number_operator
     : PLUS      { :plus      }
@@ -137,6 +186,10 @@ rule
     ;
 
   blank_line: BLANK_LINE { Node.new(:blank_line, "") }
+
+  none
+    : /* NONE */
+    ;
 end
 
 ---- header ----
