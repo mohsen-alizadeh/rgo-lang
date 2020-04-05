@@ -13,7 +13,9 @@ func plus_plus(a int, b int, c int) int {
 func main() {
   var res = plus(1, 2)
 
-  fmt.Println(res)
+  fmt.Println("1 + 2 = ", res)
 
-  fmt.Println("1 + 2 + 3 = ", plus_plus(1, 2, 3))
+  res = plus_plus(1, 2, 3)
+
+  fmt.Println("1 + 2 + 3 = ", res)
 }

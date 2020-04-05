@@ -14,8 +14,10 @@ module Main
   def main
     res = plus(1, 2)
 
-    println(res)
+    println("1 + 2 = ", res)
 
-    println("1 + 2 + 3 = ", plus_plus(1, 2, 3))
+    res = plus_plus(1, 2, 3)
+
+    println("1 + 2 + 3 = ", res)
   end
 end

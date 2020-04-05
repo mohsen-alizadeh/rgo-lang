@@ -10,6 +10,7 @@ module Rgo
       @aliases = {}
       @function_to_module_map = {}
       @next_func_type = nil
+      @local_variables = []
     end
 
     def compile
@@ -120,6 +121,7 @@ module Rgo
       out << "}"
 
       @next_func_type = nil
+      @local_variables = []
 
 
       pretty out, indent
@@ -138,6 +140,7 @@ module Rgo
       out = []
       nodes.each_with_index do |node, i|
         out << node.name + " " + @next_func_type[:args][i]
+        @local_variables << node.name
       end
 
       out.join(", ")
@@ -158,7 +161,16 @@ module Rgo
     end
 
     def compile_assignment(node, indent)
-      "var #{node.name} = #{compile_expression(node.children.first, 0)}"
+      out = ""
+
+      unless @local_variables.include?(node.name)
+        out << "var "
+        @local_variables << node.name
+      end
+
+      out << "#{node.name} = #{compile_expression(node.children.first, 0)}"
+
+      out
     end
 
     def compile_constant_assignment(node, indent)
