@@ -172,24 +172,6 @@ rule
   class_instance_method_call
     : IDENTIFIER DOT IDENTIFIER LPAREN args RPAREN { Node.new(:class_instance_method_call, val[0], [val[2], val[4]]) }
 
-/*
-  instance_variables_def
-    : instance_variable_def
-    | instance_variables_def instance_variable_def
-    ;
-
-  instance_variable_def
-    : comment_statement
-    | INSTANCE_VARIABLE
-    | blank_line
-    | none
-    ;
-
-  methods_def
-    : none
-    ;
-*/
-
   number_operator
     : PLUS      { :plus      }
     | MINUS     { :minus     }

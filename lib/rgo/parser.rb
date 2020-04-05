@@ -14,7 +14,7 @@ require_relative './node.rb'
 module Rgo
   class Parser < Racc::Parser
 
-module_eval(<<'...end parse.y/module_eval...', 'parse.y', 223)
+module_eval(<<'...end parse.y/module_eval...', 'parse.y', 205)
 
 def parse(str)
   @q = Tokenizer.new(str).tokens
@@ -779,67 +779,67 @@ module_eval(<<'.,.,', 'parse.y', 172)
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 193)
+module_eval(<<'.,.,', 'parse.y', 175)
   def _reduce_72(val, _values)
      :plus
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 194)
+module_eval(<<'.,.,', 'parse.y', 176)
   def _reduce_73(val, _values)
      :minus
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 195)
+module_eval(<<'.,.,', 'parse.y', 177)
   def _reduce_74(val, _values)
      :multiply
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 196)
+module_eval(<<'.,.,', 'parse.y', 178)
   def _reduce_75(val, _values)
      :divide
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 197)
+module_eval(<<'.,.,', 'parse.y', 179)
   def _reduce_76(val, _values)
      :greater
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 198)
+module_eval(<<'.,.,', 'parse.y', 180)
   def _reduce_77(val, _values)
      :less
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 199)
+module_eval(<<'.,.,', 'parse.y', 181)
   def _reduce_78(val, _values)
      :equal
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 200)
+module_eval(<<'.,.,', 'parse.y', 182)
   def _reduce_79(val, _values)
      :mod
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 204)
+module_eval(<<'.,.,', 'parse.y', 186)
   def _reduce_80(val, _values)
      Node.new(:boolean, true)
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 205)
+module_eval(<<'.,.,', 'parse.y', 187)
   def _reduce_81(val, _values)
      Node.new(:boolean, false)
   end
 .,.,
 
-module_eval(<<'.,.,', 'parse.y', 208)
+module_eval(<<'.,.,', 'parse.y', 190)
   def _reduce_82(val, _values)
      Node.new(:blank_line, "")
   end
