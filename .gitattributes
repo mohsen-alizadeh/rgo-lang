@@ -1,1 +1,2 @@
 *.rgo linguist-language=ruby
+*.y linguist-language=racc
