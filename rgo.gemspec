@@ -1,20 +1,20 @@
 require_relative 'lib/rgo/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rgo"
+  spec.name          = "rgo-lang"
   spec.version       = Rgo::VERSION
   spec.authors       = ["Mohsen Alizadeh"]
   spec.email         = ["mohsen@alizadeh.us"]
 
-  spec.summary       = %q{ruby to go compiler}
-  spec.description   = %q{ruby to go compiler}
-  spec.homepage      = "https://github.com/mohsen-alizadeh/rgo"
+  spec.summary       = %q{ruby like programming langauge}
+  spec.description   = %q{syntax by Ruby, performance by Go}
+  spec.homepage      = "https://github.com/mohsen-alizadeh/rgo-lang"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/mohsen-alizadeh/rgo"
-  spec.metadata["changelog_uri"] = "https://github.com/mohsen-alizadeh/rgo"
+  spec.metadata["homepage_uri"]     = spec.homepage
+  spec.metadata["source_code_uri"]  = "https://github.com/mohsen-alizadeh/rgo-lang"
+  spec.metadata["changelog_uri"]    = "https://github.com/mohsen-alizadeh/rgo-lang"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

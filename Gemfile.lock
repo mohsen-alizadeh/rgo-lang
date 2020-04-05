@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rgo (0.1.0)
+    rgo-lang (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -29,7 +29,7 @@ PLATFORMS
 DEPENDENCIES
   racc (~> 1.4.16)
   rake (~> 12.0)
-  rgo!
+  rgo-lang!
   rspec (~> 3.0)
 
 BUNDLED WITH
