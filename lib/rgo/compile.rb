@@ -97,22 +97,10 @@ module Rgo
     end
 
     def compile_args(nodes)
-      puts "args : "
-      pp nodes
-
       out = []
 
       nodes.each do |node|
-        case node.type
-        when :string
-          out << "\"#{node.name}\""
-        when :variable, :integer
-          out << node.name.to_s
-        when :constant
-          out << node.name.downcase
-        else
-          raise "unexpected argument type passed : #{node.type}"
-       end
+        out << compile_expression(node, 0)
       end
 
       out.join(", ")

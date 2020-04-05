@@ -14,4 +14,6 @@ func main() {
   var res = plus(1, 2)
 
   fmt.Println(res)
+
+  fmt.Println("1 + 2 + 3 = ", plus_plus(1, 2, 3))
 }
