@@ -1,29 +1,29 @@
 class Rgo::Parser
   options no_result_var
 
-	prechigh
-		nonassoc UMINUS
-		left '^'
-		left '*' '/'
-		left '+' '-'
-	preclow
+  prechigh
+    nonassoc UMINUS
+    left '^'
+    left '*' '/'
+    left '+' '-'
+  preclow
 
 rule
-	target
-		: statement_list
-		;
+  target
+    : statement_list
+    ;
 
-	statement_list
-		: statement
-		| statement_list statement { val }
-		;
+  statement_list
+    : statement
+    | statement_list statement { val }
+    ;
 
-	statement
+  statement
     : /* NONDE */
     | comment_statement
-		| module_statement
-		| require_statement
-		| func_call
+    | module_statement
+    | require_statement
+    | func_call
     | func_def
     | include_statement
     | assignment_statement
@@ -34,7 +34,7 @@ rule
     | alias_statement
     | return_statement
     | class_statement
-		;
+    ;
 
   if_statement
     : KEYWORD_IF LPAREN expression RPAREN statement_list KEYWORD_END
@@ -47,21 +47,21 @@ rule
   else_statement
     : KEYWORD_ELSE statement_list
 
-	require_statement: KEYWORD_REQUIRE STRING { Node.new(:require, val[1]) }
+  require_statement: KEYWORD_REQUIRE STRING { Node.new(:require, val[1]) }
 
-	module_statement
+  module_statement
     : KEYWORD_MODULE CONSTANT statement_list KEYWORD_END
       { Node.new(:module, val[1], val[2]) }
-		;
+    ;
 
-	func_call: IDENTIFIER LPAREN args RPAREN { Node.new(:func_call, val[0], val[2]) }
+  func_call: IDENTIFIER LPAREN args RPAREN { Node.new(:func_call, val[0], val[2]) }
 
   args
     : arg             { Array(val[0]).flatten     }
     | args COMMA arg  { [val[0], val[2]].flatten   }
     ;
 
-	arg
+  arg
     : none
     | STRING      { Node.new(:string, val[0])    }
     | IDENTIFIER  { Node.new(:variable, val[0])  }
@@ -106,9 +106,9 @@ rule
     : KEYWORD_ALIAS IDENTIFIER IDENTIFIER { Node.new(:alias, val[1], val[2]) }
     ;
 
-	expression
-		: IDENTIFIER '(' ')'    { val[0,3].join }
-		| IDENTIFIER  { Node.new(:variable, val[0])      }
+  expression
+    : IDENTIFIER '(' ')'    { val[0,3].join }
+    | IDENTIFIER  { Node.new(:variable, val[0])      }
     | STRING      { Node.new(:string, val[0])        }
     | INTEGER     { Node.new(:integer, val[0].to_i)  }
     | boolean
@@ -118,7 +118,7 @@ rule
     | INSTANCE_VARIABLE   { Node.new(:instance_variable_get,  val[0]) }
     | class_new
     | class_instance_method_call
-		;
+    ;
 
 
   return_statement
@@ -231,4 +231,14 @@ end
 
 def next_token
   @q.shift
+end
+
+def on_error(error_token_id, error_value, value_stack)
+  token_name = token_to_str(error_token_id)
+  token = error_value.to_s.inspect
+
+  str = 'parse error on '
+  str << token_name << ' ' unless token_name == token
+  str << token
+  raise str
 end

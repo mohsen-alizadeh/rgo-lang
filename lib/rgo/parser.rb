@@ -27,6 +27,16 @@ end
 def next_token
   @q.shift
 end
+
+def on_error(error_token_id, error_value, value_stack)
+  token_name = token_to_str(error_token_id)
+  token = error_value.to_s.inspect
+
+  str = 'parse error on '
+  str << token_name << ' ' unless token_name == token
+  str << token
+  raise str
+end
 ...end parse.y/module_eval...
 ##### State transition tables begin ###
 
