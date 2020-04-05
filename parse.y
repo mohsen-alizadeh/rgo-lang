@@ -62,7 +62,8 @@ rule
     ;
 
 	arg
-    : STRING      { Node.new(:string, val[0])    }
+    : none
+    | STRING      { Node.new(:string, val[0])    }
     | IDENTIFIER  { Node.new(:variable, val[0])  }
     | expression  { val[0] }
     ;
@@ -116,6 +117,7 @@ rule
     | func_cal
     | INSTANCE_VARIABLE   { Node.new(:instance_variable_get,  val[0]) }
     | class_new
+    | class_instance_method_call
 		;
 
 
@@ -167,6 +169,8 @@ rule
     | IDENTIFIER COLON expression { [val[0], val[2]] }
     ;
 
+  class_instance_method_call
+    : IDENTIFIER DOT IDENTIFIER LPAREN args RPAREN { Node.new(:class_instance_method_call, val[0], [val[2], val[4]]) }
 
 /*
   instance_variables_def

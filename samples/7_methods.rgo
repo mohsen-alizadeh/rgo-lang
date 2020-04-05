@@ -1,0 +1,28 @@
+module Main
+  include Fmt
+
+  class Rect
+    # type int
+    @width
+
+    # type int
+    @height
+
+    # type () -> int
+    def area
+      @width * @height
+    end
+
+    # type () -> int
+    def perim
+      2 * @width + 2 * @height
+    end
+  end
+
+  def main
+    r = Rect.new(width: 10, height: 5)
+
+    println("area: ", r.area())
+    println("perim: ", r.perim())
+  end
+end

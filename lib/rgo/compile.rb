@@ -121,7 +121,7 @@ module Rgo
         if @current_class.nil?
           ""
         else
-          " (s #{@current_class.downcase}) "
+          "(s *#{@current_class.downcase}) "
         end
 
       out = []
@@ -141,9 +141,6 @@ module Rgo
 
       raise "@next_func_type is empty" if @next_func_type.nil?
 
-        puts "@next_function_type : #{@next_func_type.inspect}"
-
-      puts "nodes args : "
       pp nodes
 
       out = []
@@ -161,8 +158,6 @@ module Rgo
           args: node.name.split("(")[1].split(")")[0].split(",").map(&:strip),
           return: node.name.split("->")[1].strip
         }
-
-        puts "@next_function_type : #{@next_func_type.inspect}"
 
         return
       elsif node.name.start_with?(" type ")
@@ -277,8 +272,6 @@ module Rgo
     end
 
     def compile_return(node, indent)
-      puts "compile return "
-      pp node
       "return " + compile_expression(node.children, indent)
     end
 
@@ -290,6 +283,7 @@ module Rgo
       out << "type #{node.name.downcase} struct {"
       out << compile_statements(node.children[0], indent + 1)
       out << "}"
+      out << ""
 
       out << compile_statements(node.children[1], indent)
 
@@ -317,8 +311,6 @@ module Rgo
 
       raise "method #{method_name} is not implemented" unless method_name == "new"
 
-      puts "class method call : "
-
       args = node.children[1]
 
       out = ""
@@ -330,6 +322,17 @@ module Rgo
       end.join(", ")
 
       out << "}"
+
+      out
+    end
+
+    def compile_class_instance_method_call(node, indent)
+      out = node.name
+      out << "."
+      out << node.children[0]
+
+      out << "("
+      out << ")"
 
       out
     end
