@@ -206,8 +206,6 @@ require_relative './node.rb'
 def parse(str)
   @q = Tokenizer.new(str).tokens
 
-  puts @q.inspect
-
   do_parse
 end
 

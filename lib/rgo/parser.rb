@@ -19,8 +19,6 @@ module_eval(<<'...end parse.y/module_eval...', 'parse.y', 205)
 def parse(str)
   @q = Tokenizer.new(str).tokens
 
-  puts @q.inspect
-
   do_parse
 end
 
