@@ -107,15 +107,15 @@ rule
     ;
 
   expression
-    : IDENTIFIER '(' ')'    { val[0,3].join }
-    | IDENTIFIER  { Node.new(:variable, val[0])      }
-    | STRING      { Node.new(:string, val[0])        }
-    | INTEGER     { Node.new(:integer, val[0].to_i)  }
+    : IDENTIFIER '(' ')'                    { val[0,3].join                             }
+    | IDENTIFIER                            { Node.new(:variable, val[0])               }
+    | STRING                                { Node.new(:string, val[0])                 }
+    | INTEGER                               { Node.new(:integer, val[0].to_i)           }
     | boolean
-    | expression number_operator expression { Node.new(val[1], nil, [val[0], val[2]]) }
-    | CONSTANT    { Node.new(:constant, val[0])      }
-    | func_cal
-    | INSTANCE_VARIABLE   { Node.new(:instance_variable_get,  val[0]) }
+    | expression number_operator expression { Node.new(val[1], nil, [val[0], val[2]])   }
+    | CONSTANT                              { Node.new(:constant, val[0])               }
+    | func_call
+    | INSTANCE_VARIABLE                     { Node.new(:instance_variable_get,  val[0]) }
     | class_new
     | class_instance_method_call
     ;
