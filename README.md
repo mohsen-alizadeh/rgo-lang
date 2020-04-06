@@ -4,11 +4,11 @@ Ruby like programming language, syntax by Ruby, Performance by Go
 
 ## Installation
 
-not published as a gem yet
+    $ gem install rgo-lang
 
 ## Usage
 
-    $ rgo hello_world.rgo
+    $ rgo run hello_world.rgo
 
 checkout [Samples](samples)
 
