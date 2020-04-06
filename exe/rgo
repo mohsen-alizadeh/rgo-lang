@@ -1,15 +1,34 @@
 #!/usr/bin/env ruby
 require 'rgo'
+require 'tempfile'
 
-unless ARGV.count == 1
+if ARGV.count != 2 || !['compile', 'build', 'run'].include?(ARGV[0])
   puts "help: "
-  puts "  rgo hello_world.rgo"
+  puts "  rgo COMMAND filepath.rgo"
+  puts ""
+  puts "available commands: "
+  puts "  run"
+  puts "  build"
 
   exit
 end
 
-filepath = ARGV.first
+filepath = ARGV[1]
 
 statements = Rgo::Parser.new.parse(File.read(filepath))
-puts Rgo::Compile.new(statements).compile
+compiled_source = Rgo::Compile.new(statements).compile
 
+case ARGV[0]
+when 'run'
+  compiled_file = Tempfile.new(['rgo_temp_', '.go'])
+  compiled_file.write(compiled_source)
+  compiled_file.close
+
+  puts `go run #{compiled_file.path}`
+when 'build'
+  compiled_file = Tempfile.new(['rgo_temp_', '.go'])
+  compiled_file.write(compiled_source)
+  compiled_file.close
+
+  `go build -o #{File.basename(filepath, ".*")} #{compiled_file.path}`
+end
