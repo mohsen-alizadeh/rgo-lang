@@ -44,6 +44,19 @@ module Rgo
       pretty out, indent
     end
 
+    def compile_interface(node, indent)
+      @inside_interface = true
+      out = []
+      out << "type #{node.name.downcase} interface {"
+      out << ""
+      out << compile_statements(node.children, indent +1)
+      out << "}"
+
+      @inside_interface = false
+
+      pretty out, indent
+    end
+
     def compile_include(node, indent)
       # compile included module to get list of functions
 
@@ -125,9 +138,14 @@ module Rgo
         end
 
       out = []
-      out << "func #{method_receiver}#{node.name}(#{args}) #{return_type}{"
-      out << compile_statements(node.children[1], indent + 1)
-      out << "}"
+
+      if @inside_interface
+        out << "#{method_receiver}#{node.name}(#{args}) #{return_type.strip}"
+      else
+        out << "func #{method_receiver}#{node.name}(#{args}) #{return_type}{"
+        out << compile_statements(node.children[1], indent + 1)
+        out << "}"
+      end
 
       @next_func_type = nil
       @local_variables = []

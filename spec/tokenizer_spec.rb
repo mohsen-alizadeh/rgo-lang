@@ -134,6 +134,18 @@ describe Rgo::Tokenizer do
       <<-EOL
         1 + 2 - 3 * 4 / 5
       EOL
+    ],
+    [
+      :interface,
+      [
+        [:KEYWORD_INTERFACE, "interface"],
+        [:CONSTANT, "Geometry"],
+        [:KEYWORD_END, "end"]
+      ],
+      <<-EOL
+        interface Geometry
+        end
+      EOL
     ]
   ]
 

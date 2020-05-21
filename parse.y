@@ -22,6 +22,7 @@ rule
     : /* NONDE */
     | comment_statement
     | module_statement
+    | interface_statement
     | require_statement
     | func_call
     | func_def
@@ -52,6 +53,11 @@ rule
   module_statement
     : KEYWORD_MODULE CONSTANT statement_list KEYWORD_END
       { Node.new(:module, val[1], val[2]) }
+    ;
+
+  interface_statement
+    : KEYWORD_INTERFACE CONSTANT statement_list KEYWORD_END
+      { Node.new(:interface, val[1], val[2]) }
     ;
 
   func_call: IDENTIFIER LPAREN args RPAREN { Node.new(:func_call, val[0], val[2]) }

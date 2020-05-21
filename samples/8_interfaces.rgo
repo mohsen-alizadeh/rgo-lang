@@ -1,0 +1,11 @@
+module Main
+  interface Geometry
+    # type () -> float64
+    def area()
+    end
+
+    # type () -> float64
+    def perim()
+    end
+  end
+end

@@ -98,7 +98,7 @@ module Rgo
 
       INSTANCE_VARIABLE= /\@\w+/
 
-      KEYWORDS = /class|end|require|module|def|include|true|false|if|else|elsif|alias|return/
+      KEYWORDS = /class|end|require|module|def|include|true|false|if|else|elsif|alias|return|interface/
     end # Expression
   end
 end
