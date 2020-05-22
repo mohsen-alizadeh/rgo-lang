@@ -96,7 +96,12 @@ rule
     : IDENTIFIER { Node.new(:variable, val[0]) }
     ;
 
-  include_statement: KEYWORD_INCLUDE CONSTANT { Node.new(:include, val[1]) };
+  include_statement: KEYWORD_INCLUDE constant_tree { Node.new(:include, val[1]) };
+
+  constant_tree
+    : CONSTANT                            { [val[0]]                  }
+    | constant_tree DCOLON constant_tree  { [val[0], val[2]].flatten  }
+    ;
 
   comment_statement: COMMENT { Node.new(:comment, val[0]) };
 
@@ -132,8 +137,13 @@ rule
     ;
 
   class_statement
-    : KEYWORD_CLASS CONSTANT instance_variables_def methods_def KEYWORD_END
-      { Node.new(:class, val[1], [val[2], val[3]]) }
+    : KEYWORD_CLASS CONSTANT class_body KEYWORD_END
+      { Node.new(:class, val[1], [val[2][0], val[2][1]]) }
+    ;
+
+  class_body
+    : none                                { [nil, nil] }
+    | instance_variables_def methods_def  { val        }
     ;
 
   instance_variables_def

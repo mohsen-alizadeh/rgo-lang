@@ -12,7 +12,8 @@ task :default => :spec
 
 task :dev do
   `racc parse.y -o lib/rgo/parser.rb`
-  statements = Rgo::Parser.new.parse(File.read("./samples/4_if_else.rgo"))
+  # statements = Rgo::Parser.new.parse(File.read("./samples/example_01_http_servers.rgo"))
+  statements = Rgo::Parser.new.parse(File.read("./samples/7_methods.rgo"))
 
   require 'pp'
 
@@ -23,6 +24,6 @@ task :dev do
 
   puts out
 
-  puts compile.functions
-  puts compile.function_to_module_map
+  puts "compile functions : #{compile.functions}"
+  puts "compile functions_to_module_map : #{compile.function_to_module_map}"
 end

@@ -4,5 +4,8 @@ module Fmt
 
   def println()
   end
+
+  def fprintf()
+  end
 end
 

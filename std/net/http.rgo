@@ -1,0 +1,16 @@
+module Net
+  module Http
+    class Request
+    end
+
+    class ResponseWriter
+    end
+
+
+    def handle_func()
+    end
+
+    def listen_and_serve()
+    end
+  end
+end

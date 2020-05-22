@@ -55,6 +55,8 @@ module Rgo
             @q.push [:COMMA, ","]
           when m = scanner.scan(/\./)
             @q.push [:DOT, "."]
+          when m = scanner.scan(/\:\:/)
+            @q.push [:DCOLON, "::"]
           when m = scanner.scan(/\:/)
             @q.push [:COLON, ":"]
           when m = scanner.scan(Expression::INSTANCE_VARIABLE)

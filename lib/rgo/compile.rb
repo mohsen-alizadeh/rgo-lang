@@ -1,6 +1,7 @@
 module Rgo
   class Compile
-    attr_reader :functions, :function_to_module_map, :aliases
+    attr_reader :functions, :function_to_module_map, :aliases,
+                :classes
 
     def initialize(statements)
       @statements = statements
@@ -8,7 +9,9 @@ module Rgo
       @function_access_type = :public
       @current_module = nil
       @aliases = {}
+      @classes = []
       @function_to_module_map = {}
+      @class_to_module_map = {}
       @next_func_type = nil
       @local_variables = []
       @next_instance_variable_type = nil
@@ -59,20 +62,25 @@ module Rgo
 
     def compile_include(node, indent)
       # compile included module to get list of functions
+      filepath = node.name.map(&:downcase).join("/")
 
-      statements = Rgo::Parser.new.parse(File.read("std/" + node.name.downcase + ".rgo"))
+      statements = Rgo::Parser.new.parse(File.read("std/" + filepath + ".rgo"))
       compile = Rgo::Compile.new(statements)
       compile.compile
 
       compile.functions[:public].each do |func|
-        @function_to_module_map[func] = [node.name, func]
+        @function_to_module_map[func] = [filepath, func]
       end
 
       compile.aliases.each do |name, func|
-        @function_to_module_map[name] = [node.name, func]
+        @function_to_module_map[name] = [filepath, func]
       end
 
-      "import \"#{node.name.downcase}\""
+      compile.classes.each do |name, func|
+        @class_to_module_map[name] = filepath.split("/").last
+      end
+
+      "import \"#{filepath}\""
     end
 
     def pretty(lines, indent = 0)
@@ -98,13 +106,14 @@ module Rgo
 
     def compile_func_call(node, indent)
       mod, func = @function_to_module_map[node.name]
+      mod = mod.split("/").last unless mod.nil?
 
       out = ""
 
       if mod.nil?
         out << func
       else
-        out << mod.downcase + "." + func.capitalize
+        out << mod.downcase + "." + func.split("_").map(&:capitalize).join
       end
 
       out << "(" + compile_args(node.children) + ")"
@@ -128,6 +137,7 @@ module Rgo
 
       args = compile_func_def_args(node.children[0])
       return_type = @next_func_type.nil? ? "" : @next_func_type[:return].to_s + " "
+      return_type = "" if return_type == "nil"
 
 
       method_receiver =
@@ -163,7 +173,14 @@ module Rgo
 
       out = []
       nodes.each_with_index do |node, i|
-        out << node.name + " " + @next_func_type[:args][i]
+        type = @next_func_type[:args][i]
+        puts "class to module map : #{@class_to_module_map}"
+        puts "type : #{type}"
+
+        mod = @class_to_module_map[type].to_s
+        mod = mod + "." unless mod.empty?
+
+        out << node.name + " " + mod + type
         @local_variables << node.name
       end
 
@@ -294,6 +311,8 @@ module Rgo
     end
 
     def compile_class(node, indent)
+      @classes << node.name
+
       @current_class = node.name.downcase
 
       out = []
