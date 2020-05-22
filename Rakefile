@@ -12,8 +12,7 @@ task :default => :spec
 
 task :dev do
   `racc parse.y -o lib/rgo/parser.rb`
-  # statements = Rgo::Parser.new.parse(File.read("./samples/example_01_http_servers.rgo"))
-  statements = Rgo::Parser.new.parse(File.read("./samples/7_methods.rgo"))
+  statements = Rgo::Parser.new.parse(File.read("./samples/example_01_http_servers.rgo"))
 
   require 'pp'
 

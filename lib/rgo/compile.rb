@@ -137,7 +137,7 @@ module Rgo
 
       args = compile_func_def_args(node.children[0])
       return_type = @next_func_type.nil? ? "" : @next_func_type[:return].to_s + " "
-      return_type = "" if return_type == "nil"
+      return_type = "" if return_type == "nil "
 
 
       method_receiver =
