@@ -2,7 +2,7 @@ module Main
   include Fmt
   include Net::Http
 
-  # type (ResponseWriter, Request) -> nil
+  # type (ResponseWriter, *Request) -> nil
   def hello(w, req)
     fprintf(w, "hello")
   end

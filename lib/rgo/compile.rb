@@ -174,13 +174,17 @@ module Rgo
       out = []
       nodes.each_with_index do |node, i|
         type = @next_func_type[:args][i]
-        puts "class to module map : #{@class_to_module_map}"
-        puts "type : #{type}"
+
+        pointer = false
+        if type[0] == "*"
+          pointer = true
+          type = type[1..-1]
+        end
 
         mod = @class_to_module_map[type].to_s
         mod = mod + "." unless mod.empty?
 
-        out << node.name + " " + mod + type
+        out << node.name + " " + (pointer ? "*" : "" ) + mod + type
         @local_variables << node.name
       end
 
