@@ -1,0 +1,9 @@
+module Main
+  def main
+    sum = 0
+
+    nums.each do | _ , num |
+      sum = sum + num
+    end
+  end
+end

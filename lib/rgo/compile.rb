@@ -377,5 +377,14 @@ module Rgo
 
       out
     end
+
+    def compile_range(node, ident)
+      out = []
+      out << "for " + node.children[0].join(", ") + " := range " + node.name + " {"
+      out << compile_statements(node.children[1], ident + 1)
+      out << "}"
+
+      pretty out, ident
+    end
   end
 end

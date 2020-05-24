@@ -35,6 +35,7 @@ rule
     | alias_statement
     | return_statement
     | class_statement
+    | each_statement
     ;
 
   if_statement
@@ -187,6 +188,26 @@ rule
 
   class_instance_method_call
     : IDENTIFIER DOT IDENTIFIER LPAREN args RPAREN { Node.new(:class_instance_method_call, val[0], [val[2], val[4]]) }
+
+
+  each_statement
+    : IDENTIFIER DOT KEYWORD_EACH KEYWORD_DO block_args_opt statement_list KEYWORD_END { Node.new(:range, val[0],[val[4], val[5]]) }
+    ;
+
+  block_args_opt
+    : none                  { []              }
+    | '|' block_args '|'    { val[1]          }
+    ;
+
+  block_args
+    : block_arg                   { val[0]                    }
+    | block_arg COMMA block_args  { [val[0], val[2]].flatten  }
+    ;
+
+  block_arg
+    : IDENTIFIER
+    | "_"
+    ;
 
   number_operator
     : PLUS      { :plus      }
