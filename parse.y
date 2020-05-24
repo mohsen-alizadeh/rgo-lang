@@ -130,8 +130,21 @@ rule
     | INSTANCE_VARIABLE                     { Node.new(:instance_variable_get,  val[0]) }
     | class_new
     | class_instance_method_call
+    | array
     ;
 
+  array
+    : '[' array_elements ']'                { Node.new(:array, nil, val[1]) }
+    ;
+
+  array_elements
+    : array_element                         { val                       }
+    | array_element COMMA array_elements    { [val[0], val[2]].flatten  }
+    ;
+
+  array_element
+    : INTEGER
+    ;
 
   return_statement
     : KEYWORD_RETURN expression { Node.new(:return, nil, val[1]) }
@@ -242,6 +255,8 @@ require_relative './node.rb'
 
 def parse(str)
   @q = Tokenizer.new(str).tokens
+
+  puts @q.inspect
 
   do_parse
 end

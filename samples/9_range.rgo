@@ -1,6 +1,7 @@
 module Main
   def main
     sum = 0
+    nums = [1,2,3]
 
     nums.each do | _ , num |
       sum = sum + num

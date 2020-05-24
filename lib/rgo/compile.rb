@@ -386,5 +386,9 @@ module Rgo
 
       pretty out, ident
     end
+
+    def compile_array(node, indent)
+      "[]int{" + node.children.join(", ") +  "}"
+    end
   end
 end
