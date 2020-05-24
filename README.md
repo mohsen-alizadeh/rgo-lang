@@ -7,7 +7,23 @@ Ruby like programming language, syntax by Ruby, Performance by Go
     $ gem install rgo-lang
 
 ## Usage
+```ruby
+# hello_world.rgo
+module Main
+  include Fmt
+  include Net::Http
 
+  # type (ResponseWriter, *Request) -> nil
+  def hello(w, req)
+    fprintf(w, "hello")
+  end
+
+  def main
+    handle_func("/hello", hello)
+    listen_and_serve(":8090", nil)
+  end
+end
+```
     $ rgo run hello_world.rgo
 
 checkout [Samples](samples)
